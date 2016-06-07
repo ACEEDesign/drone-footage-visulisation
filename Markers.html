@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+src="http://maps.googleapis.com/maps/api/js">
+</script>
+
+<script>
+    
+//start location    
+var myCenter=new google.maps.LatLng(51.508742,-0.120850);
+
+// List of YouTube video IDs
+var urlL = [];
+
+//List of map locations
+var addressL = [];
+
+
+//Youtube embed code
+var emA = '<iframe width="560" height="315" src="https://www.youtube.com/embed/';
+var emB = '" frameborder="0" allowfullscreen></iframe>';
+
+
+var url;
+var title ;
+var des ;
+var address ;
+var latlngL = [];
+var latitude;
+var longitude;
+
+var geocoder = new google.maps.Geocoder();
+
+
+//Map locations 
+//0
+urlL.push('zEk9JubEBao');
+addressL.push('London Tower Bridge');
+
+//1
+urlL.push('HVI4OYVdoQs');
+addressL.push('London’s Millennium Bridge');
+
+//2
+urlL.push('yO1A2gKdKRI');
+addressL.push('Tower of London');
+
+//3
+urlL.push('yO1A2gKdKRI');
+addressL.push('Tower of London');
+
+//4
+urlL.push('_TeHCA4z_14');
+addressL.push('The O2, London');
+
+//5
+urlL.push('I1ZDUIgyHwg');
+addressL.push('Paddington');
+
+//6
+urlL.push('P9J7G1H6N20');
+addressL.push('London Eye');
+
+//7
+urlL.push('2Hhwep00Idc');
+addressL.push('St James Park, London');
+
+//8
+urlL.push('PMQe2RREQiQ');
+addressL.push('Houses of Parliament, London');
+
+//9
+urlL.push('P9J7G1H6N20');
+addressL.push('London Eye, London');
+
+//9
+urlL.push('P9J7G1H6N20');
+addressL.push('London Eye');
+
+//10
+urlL.push('Qm0zYGGiQLg');
+addressL.push('U.S.A. Embassy London');
+
+//11
+urlL.push('dceMy-U_PXU');
+addressL.push('London Bridge');
+
+//12
+urlL.push('GvIinHmEzYc');
+addressL.push('Tower of London');
+
+
+//Takes address string and the video id
+//Converts address to latitude and longitude
+//Creates map marker
+//Adds marker to map
+//Uses Geocoder and map markers from the google maps API
+function addMarker(map, address, url){
+    //Attepmts conversion of address to latitude and longitude 
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+//If it is successful
+if (status == google.maps.GeocoderStatus.OK) {
+     latitude = results[0].geometry.location.lat();
+     longitude = results[0].geometry.location.lng();
+      latlng = new google.maps.LatLng(latitude,longitude);
+  //creates marker
+var marker=new google.maps.Marker({
+   
+  position:latlng,
+  icon:'icon.jpg',
+  animation:google.maps.Animation.BOUNCE,
+
+  });
+  
+
+
+//creates video embed for the marker, clicked to activate 
+marker.addListener('click', function() {
+    var infowindow = new google.maps.InfoWindow({
+  content:emA+url+emB
+  });
+//adds the video to the marker
+infowindow.open(map,marker);
+  });
+
+//adds marker to map
+marker.setMap(map);
+    
+}
+        
+        
+        
+        
+        
+    });
+        
+        
+        }
+
+
+
+function initialize()
+{
+    
+    
+    
+//map starting location    
+var mapProp = {
+  center:myCenter,
+  zoom:5,
+  mapTypeId:google.maps.MapTypeId.TERRAIN
+  };
+
+//creates map
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+ 
+ 
+ //creates markers from address and url information lists
+ for (j = 0; j < 10; j++) {
+    addMarker(map, addressL[j], urlL[j]);
+
+ }
+ 
+ 
+
+}
+
+//map interaction listener
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+
+<body>
+    <script>
+      
+        </script>
+<div id="googleMap" style="width:900px;height:680px;"></div>
+</body>
+</html>
